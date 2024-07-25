@@ -30,7 +30,7 @@ void Bullet::moveBullet()
         break;
     }
 
-    if(_x > 600 || _x < 0 || _y > 600 || _y < 0)
+    if(this->isOutOfMap())
         return;
 
     setPos(_x, _y);
@@ -39,6 +39,10 @@ void Bullet::moveBullet()
 void Bullet::coliding()
 {
     QList<QGraphicsItem*> list = collidingItems();
+}
+
+bool Bullet::isOutOfMap() {
+    return _x > 600 || _x < 0 || _y > 600 || _y < 0;
 }
 
 QRectF Bullet::boundingRect() const

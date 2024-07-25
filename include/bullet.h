@@ -24,6 +24,7 @@ public:
 
     void moveBullet();
     void coliding();
+    bool isOutOfMap();
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter,

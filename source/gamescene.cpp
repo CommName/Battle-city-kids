@@ -171,24 +171,34 @@ void GameScene::update()
 
     int index = 0;
     foreach(Bullet* b, _bullets) {
-        QList<QGraphicsItem*> list = b->collidingItems();
-        if (list.size() > 0)
-        {
-            foreach(QGraphicsItem* i , list)
-            {
-                removeItem(i);
-                if (i == _phoenix)
-                {
-                    _npcCreating.stop();
-                    _shooting1.stop();
-                    _shooting2.stop();
-                    _levelTicker.stop();
-                    emit exitRequested();
-                }
-            }
+        if (b->isOutOfMap()) {
+            removeItem(b);
             delete b;
             if(index < _bullets.length())
                 _bullets.remove(index--);
+        }
+        else
+        {
+            QList<QGraphicsItem*> list = b->collidingItems();
+            if (list.size() > 0)
+            {
+                foreach(QGraphicsItem* i , list)
+                {
+                    removeItem(i);
+                    if (i == _phoenix)
+                    {
+                        _npcCreating.stop();
+                        _shooting1.stop();
+                        _shooting2.stop();
+                        _levelTicker.stop();
+                        emit exitRequested();
+                    }
+                }
+                removeItem(b);
+                delete b;
+                if(index < _bullets.length())
+                    _bullets.remove(index--);
+            }
         }
         index++;
     }
